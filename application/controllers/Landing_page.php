@@ -15,4 +15,16 @@ public function signup()
 	{
 		$this->load->view('signup');
 	}
+
+public function user_data_submit() 
+	{
+		$data = array('key' => 1,);
+		/*$this->input->post('key'),*/
+		// $this->load->view('landing_page');
+		// echo "calling.............";
+		// echo $this->input->post('key');
+		// header('Content-Type: application/json');
+//Either you can print value or you can send value to database
+	echo json_encode($data);
+}
 }
