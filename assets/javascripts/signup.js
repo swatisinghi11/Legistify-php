@@ -1,13 +1,13 @@
 $(document).ready(function(){
 	$.ajax({
-    		    url: "http://localhost/legistifyphp_github/index.php/Landing_page/user_data_submit",
+    		    url: "user_data_submit",
         		type: 'POST',
         		data: JSON.stringify({"key":"swati"}),
         		dataType: 'json',			    
 
 			    //Receiving SignUp result from the server. 
 			    success : function(signup_result){
-			    	console.log("hey");
+			    	console.log(signup_result);
 			        if(signup_result.success==1 && signup_result.lawyer == '1')
 					{
 						window.open("/success_lawyer?id="+signup_result.uuid,"_self");
