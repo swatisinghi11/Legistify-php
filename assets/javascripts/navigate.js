@@ -22,7 +22,7 @@ function openURL(index) {
 			window.open("supportfailed","_self");
 		}
 		else{
-			window.open("index.php/Landing_page/signin","_self");
+			window.open("Landing_page/signin","_self");
 			// <a href="<?php echo site_url('controller/function/uri') ?>">Link</a>
 		}
 	}
@@ -31,7 +31,7 @@ function openURL(index) {
 			window.open("/supportfailed","_self");
 		}
 		else{
-			window.open("index.php/Landing_page/signup","_self");
+			window.open("Landing_page/signup","_self");
 		}
 	}
 	else if(index == 3){
