@@ -204,7 +204,7 @@ public function mainpage_initialisation(){
 	// echo "mainpage";
 	$dsn ='mysqli://root:@localhost/legistifyphp';
 		$dbconnect = $this->load->database($dsn);
-		$all_data=array();
+		$all_data=array('current_user'=>"",'lawyer_schedule'=>array(),'appointment_request_list'=>array());
 		$this->load->model('Users_model');
 		$mainpage_uuid = array('uuid'=>$this->input->post('uuid'));
 		$uuid = $mainpage_uuid["uuid"];

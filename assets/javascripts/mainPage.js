@@ -7,6 +7,58 @@ var user_status_mapping = {0:'Not Available', 1:'Available', 2:'Already Booked B
 var schedule_date;
 var schedule_time_slot = [];
 
+function updateSchedule(){
+	var schedule_update_data = {'uuid':global_uuid,'date':schedule_date};
+	var slot_info = "";
+	for(var i = 0 ; i < schedule_time_slot.length ; i++){
+		var value;
+		if($('#'+schedule_date+"_"+schedule_time_slot[i]+"_0").is(':checked')){
+			value = "0";
+		}
+		else if($('#'+schedule_date+"_"+schedule_time_slot[i]+"_1").is(':checked')){
+			value = "1";
+		}		
+		else if($('#'+schedule_date+"_"+schedule_time_slot[i]+"_2").is(':checked')){
+			value = "2";
+		}
+		if(i == schedule_time_slot.length -1){
+			slot_info += schedule_time_slot[i]+":"+value;
+			continue;
+		}
+		slot_info += schedule_time_slot[i]+":"+value+","
+	}
+	schedule_update_data.slot_info = slot_info;
+	// socket.emit('mainpage_update',schedule_update_data);
+	var base_url = window.location.origin;
+	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/update_lawyer_schedule";
+	var post_url_openshift = base_url+"/index.php/Landing_page/update_lawyer_schedule";
+	$.ajax({
+		    type: 'POST',
+		    url: post_url_localhost,
+		    data: schedule_update_data,
+		    // dataType: "json",
+	    //Receiving SignIn result from the server. 
+		    success : function(user_data){
+		    	console.log("return mainpage data");
+		    	console.log(user_data);
+		    	alert("Schedule successfully updated!!!");
+		  //   	current_user = user_data.current_user;
+				// if(current_user.lawyer == "0"){
+				// 	populate_site_user_page(user_data)
+				// }
+				// else{
+				// 	populate_lawyer_page(user_data)
+				// }
+		    	
+		    },
+		    error : function(a,b,c){
+
+		        console.log("initialization failed !!!",a,b,c);
+		    }
+		});
+}
+
+
 function populate_site_user_page(user_data){
 
 	current_user = user_data.current_user;
