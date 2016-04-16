@@ -12,10 +12,8 @@ class Bookings_model extends CI_Model {
 
   function insert_row($data)
   {
-    echo "inserted.......";
     // $signup = "INSERT INTO users VALUES (".$swati['uuid'].",".$swati['username'].",".$swati['lawyer'].",".$swati['email'].",".$swati['password'].",".$swati['firstname'].", ".$swati['lastname'].",".$swati['imageId'].",".$swati['details'].",)";
         // $this->db->query($sql);
-        // echo $this->db->affected_rows();
         $this->db->set('uuid','UUID()',FALSE);
         // $this->uuid = "uuid";
         $this->username = $data['username'];
@@ -33,7 +31,6 @@ class Bookings_model extends CI_Model {
 
   function create_table()
   { 
-    echo "i am in";
     /* Load db_forge - used to create databases and tables */
     $this->load->dbforge();
     
@@ -72,7 +69,6 @@ class Bookings_model extends CI_Model {
     
     /* Create the table (if it doesn't already exist) */
     $this->dbforge->create_table('bookings', TRUE);
-    echo "table successfully created";
   } 
 
 

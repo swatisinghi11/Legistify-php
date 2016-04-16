@@ -19,7 +19,7 @@ $(document).ready(function(){
 		    type: 'POST',
 		    url: post_url_localhost,
 		    data: {"uuid":user_uuid},
-		    // dataType: "json",
+		    dataType: "json",
 	    //Receiving SignIn result from the server. 
 		    success : function(mainpage_initialization_result){
 		    	console.log("return mainpage data");

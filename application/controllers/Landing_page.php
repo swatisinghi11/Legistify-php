@@ -2,6 +2,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Landing_page extends CI_Controller {
+	function __construct() 
+	  {
+	    /* Call the Model constructor */
+	    parent::__construct();
+	    $dsn ='mysqli://root:@localhost/legistifyphp';
+		$dbconnect = $this->load->database($dsn);
+		$this->load->model('Users_model');
+		$this->Users_model->create_table();
+		$this->load->model('Schedule_model');
+		$this->Schedule_model->create_table();
+		$this->load->model('Bookings_model');
+		$this->Bookings_model->create_table();
+
+
+	  }
 public function index()
 	{
 		$this->load->view('landing_page');
@@ -130,7 +145,7 @@ public function user_data_submit()
 	}
 
 public function mainpage_initialisation(){
-	echo "mainpage";
+	// echo "mainpage";
 	$dsn ='mysqli://root:@localhost/legistifyphp';
 		$dbconnect = $this->load->database($dsn);
 		$all_data=array();
@@ -208,7 +223,6 @@ public function mainpage_initialisation(){
 
 			}
 
-		}
 		echo json_encode($all_data);
 	}
 }
