@@ -7,6 +7,13 @@ var user_status_mapping = {0:'Not Available', 1:'Available', 2:'Already Booked B
 var schedule_date;
 var schedule_time_slot = [];
 
+function logout(){
+	var base_url = window.location.origin;
+	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page";
+	var post_url_openshift = base_url+"/index.php/Landing_page";
+	window.open(post_url_localhost,"_self");
+}
+
 function populate_site_user_page(user_data){
 
 	current_user = user_data.current_user;
