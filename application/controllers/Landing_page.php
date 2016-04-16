@@ -36,6 +36,11 @@ public function signin()
 	{
 		$this->load->view('signin');
 	}
+public function success()
+	{
+		$this->load->view('success');
+	}
+
 public function signup()
 	{
 		$this->load->view('signup');

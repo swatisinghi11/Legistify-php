@@ -24,7 +24,7 @@ class Users_model extends CI_Model {
         $this->firstname = $data['firstname'];
         $this->lastname = $data['lastname'];
         $this->imageId = 1;
-        $this->details = "details not available";
+        $this->details = "Details not available";
 
         
         $this->db->insert('users',$this);
