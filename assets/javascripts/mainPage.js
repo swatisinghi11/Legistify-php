@@ -103,7 +103,41 @@ function updateSchedule(){
 		});
 }
 
+function requestAppointment(name){
+	var request_data = {'lawyer_uuid':selected_lawyer,'site_user_uuid':global_uuid,'date':schedule_date,'status':'1','lawyer_name':name,'site_user_name':current_user.firstname};
+	var time_slot = "";
+	console.log(schedule_time_slot)
+	for(var i = 0 ; i < schedule_time_slot.length ; i++){
+		var value;
+		if(document.getElementById(schedule_date+"_"+schedule_time_slot[i]+"_0").checked){
+			time_slot = schedule_time_slot[i];
+		}
+	}
+	if(time_slot == ""){
+		alert("No slot selected !!!");
+		return;
+	}
+	request_data.time_slot = time_slot;
 
+	var base_url = window.location.origin;
+	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/appointment_booking";
+	var post_url_openshift = base_url+"/index.php/Landing_page/appointment_booking";
+	$.ajax({
+		    type: 'POST',
+		    url: post_url_localhost,
+		    data: request_data,
+		    // dataType: "json",
+	    //Receiving SignIn result from the server. 
+		    success : function(user_data){
+		    	alert("Appointment request sent!!!!!!");	
+		    },
+		    error : function(a,b,c){
+
+		        console.log("initialization failed !!!",a,b,c);
+		    }
+		});
+	// socket.emit('request_appointment',request_data);
+}
 function populate_site_user_page(user_data){
 
 	current_user = user_data.current_user;

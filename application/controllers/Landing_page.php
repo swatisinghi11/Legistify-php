@@ -152,7 +152,6 @@ public function appointment_booking(){
 	$this->load->model('Bookings_model');
 	$this->Bookings_model->create_table();
 	$this->Bookings_model->insert_row($booking_data);
-	
 
 }
 
@@ -285,8 +284,9 @@ public function mainpage_initialisation(){
 
 			$this->load->model('Bookings_model');
 			$query = $this->db->query('SELECT lawyer_uuid,site_user_uuid,date,time_slot,status,lawyer_name,site_user_name FROM bookings where lawyer_uuid="'.$uuid.'"');
-			$row = $query->row();
-			if($row){
+			$appointment_request_list=array();
+			foreach ($query->result() as $row)
+				{
 			    $lawyer_uuid= $row->lawyer_uuid;
 			    $site_user_uuid= $row->site_user_uuid;
 			    $date= $row->date;
@@ -294,9 +294,10 @@ public function mainpage_initialisation(){
 			    $status= $row->status;
 			    $lawyer_name= $row->lawyer_name;
 			    $site_user_name= $row->site_user_name;
-				$appointment_request_list=array("_lawyer_uuid"=>$lawyer_uuid,"site_user_uuid"=>$site_user_uuid,"date"=>$date,"time_slot"=>$time_slot,"status"=>$status,"lawyer_name"=>$lawyer_name,"site_user_name"=>$site_user_name);
-				$all_data['appointment_request_list']=$appointment_request_list;
+				$appointment_request=array("_lawyer_uuid"=>$lawyer_uuid,"site_user_uuid"=>$site_user_uuid,"date"=>$date,"time_slot"=>$time_slot,"status"=>$status,"lawyer_name"=>$lawyer_name,"site_user_name"=>$site_user_name);
+				$appointment_request_list[]=$appointment_request;
 			}
+			$all_data['appointment_request_list']=$appointment_request_list;
 		}
 		else{
 			$dsn ='mysqli://root:@localhost/legistifyphp';
