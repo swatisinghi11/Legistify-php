@@ -25,6 +25,7 @@ class Schedule_model extends CI_Model {
       $this->db->where('date',$update_data["date"]);
       $data=array('slot_info'=>$update_data["slot_info"]);
       $this->db->update('schedule',$data);
+      
   }
 
 

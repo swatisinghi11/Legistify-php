@@ -14,6 +14,96 @@ function logout(){
 	window.open(post_url_localhost,"_self");
 }
 
+function show_selected_lawyer(lawyer_information){
+	var lawyer_schedule = lawyer_information.lawyer_schedule;
+	        var appointment_request_list = lawyer_information.appointment_request_list;
+	        var lawyer_schedule_panel = $("#right_panel");
+
+			lawyer_schedule_panel.append('<div id="'+lawyer_schedule.uuid+'_schedule"> <h2> Schedule and Booking History With '+lawyer_schedule.name+'  </h2> <h3> Date - '+lawyer_schedule.date+'</h3>   </div>')
+			var schedule_div = $("#"+lawyer_schedule.uuid+'_schedule');
+			var time_slot_information = lawyer_schedule.slot_info.split(",");
+			var size = time_slot_information.length;
+			var time_status_map = {}
+			schedule_date = lawyer_schedule.date;
+			for (var i = 0; i < size; i++ ){
+				var time_status_pair = time_slot_information[i].split(":");
+				time_status_map[time_status_pair[0]] = parseInt(time_status_pair[1]);
+				schedule_time_slot.push(time_status_pair[0]);
+				schedule_div.append('<br><div id="'+lawyer_schedule.date+'_'+time_status_pair[0]+ '" style=" padding:10px; border: thin solid #d3d3d3; border-radius:2%"> <h4> Time Slot :  '+time_status_pair[0]+' </h4> <h4 id="'+lawyer_schedule.date+'_'+time_status_pair[0]+'_status"> Current Status - '+user_status_mapping[time_status_pair[1]]+' </h4>'+'<form role="form"> <label ><input id="'+lawyer_schedule.date+'_'+time_status_pair[0]+'_0"  type="checkbox" value="0" name="select">'+'Select Slot'+'</label></form>'+'</div>')
+				if(time_status_pair[1]== "2" || time_status_pair[1]== "0"){
+					document.getElementById(lawyer_schedule.date+"_"+time_status_pair[0]+"_0").disabled = true;
+				}
+			}
+
+			for(var i = 0 ; i < appointment_request_list.length ; i++){
+				var appointment_request = appointment_request_list[i];
+				var current_date = new Date();
+				var nextDay = new Date();
+				nextDay.setDate(current_date.getDate()+1);
+				var date_params = nextDay.toString().split(" ");
+                var next_date_str = date_params[2]+"-"+date_params[1]+"-"+date_params[3];
+                if(appointment_request.date != next_date_str){
+                		continue;
+                }
+				document.getElementById(appointment_request.date+"_"+appointment_request.time_slot+"_status").innerHTML ='Current Status - '+appointment_status_map[appointment_request.status];
+				document.getElementById(appointment_request.date+"_"+appointment_request.time_slot+"_0").disabled = true;
+			}
+			lawyer_schedule_panel.append('<button type="button" class="btn btn-primary navbar-btn" style="float:right;" onclick="requestAppointment(\''+lawyer_schedule.name+'\')">Request Appointment</button> <h4>Please Choose only one slot!!! If more than one selected, Only one slot request will be sent. </h4>');
+
+}
+
+function updateSchedule(){
+	var schedule_update_data = {'uuid':global_uuid,'date':schedule_date};
+	var slot_info = "";
+	for(var i = 0 ; i < schedule_time_slot.length ; i++){
+		var value;
+		if($('#'+schedule_date+"_"+schedule_time_slot[i]+"_0").is(':checked')){
+			value = "0";
+		}
+		else if($('#'+schedule_date+"_"+schedule_time_slot[i]+"_1").is(':checked')){
+			value = "1";
+		}		
+		else if($('#'+schedule_date+"_"+schedule_time_slot[i]+"_2").is(':checked')){
+			value = "2";
+		}
+		if(i == schedule_time_slot.length -1){
+			slot_info += schedule_time_slot[i]+":"+value;
+			continue;
+		}
+		slot_info += schedule_time_slot[i]+":"+value+","
+	}
+	schedule_update_data.slot_info = slot_info;
+	// socket.emit('mainpage_update',schedule_update_data);
+	var base_url = window.location.origin;
+	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/update_lawyer_schedule";
+	var post_url_openshift = base_url+"/index.php/Landing_page/update_lawyer_schedule";
+	$.ajax({
+		    type: 'POST',
+		    url: post_url_localhost,
+		    data: schedule_update_data,
+		    // dataType: "json",
+	    //Receiving SignIn result from the server. 
+		    success : function(user_data){
+		    	console.log("return mainpage data");
+		    	console.log(user_data);
+		    	alert("Schedule successfully updated!!!");
+		  //   	current_user = user_data.current_user;
+				// if(current_user.lawyer == "0"){
+				// 	populate_site_user_page(user_data)
+				// }
+				// else{
+				// 	populate_lawyer_page(user_data)
+				// }
+		    	
+		    },
+		    error : function(a,b,c){
+
+		        console.log("initialization failed !!!",a,b,c);
+		    }
+		});
+}
+
+
 function populate_site_user_page(user_data){
 
 	current_user = user_data.current_user;
@@ -33,6 +123,26 @@ function populate_site_user_page(user_data){
 		    document.getElementById('right_panel').innerHTML="";
 		    schedule_time_slot = []
 		    // Make a call to get the data.
+		    var base_url = window.location.origin;
+			var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/lawyer_schedule";
+			var post_url_openshift = base_url+"/index.php/Landing_page/lawyer_schedule";
+		    $.ajax({
+		    type: 'POST',
+		    url: post_url_localhost,
+		    data: {'lawyer_uuid':selected_lawyer,'user_uuid':global_uuid},
+		    dataType: "json",
+	    //Receiving SignIn result from the server. 
+		    success : function(user_data){
+		    	console.log("return lawyer data");
+		    	console.log(user_data);
+		    	show_selected_lawyer(user_data);
+		    		
+		    },
+		    error : function(a,b,c){
+
+		        console.log("initialization failed !!!",a,b,c);
+		    }
+		});
 		    // socket.emit('lawyer_information',{'lawyer_uuid':selected_lawyer,'user_uuid':global_uuid});
 		});
 

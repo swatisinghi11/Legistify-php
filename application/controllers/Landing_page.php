@@ -156,6 +156,49 @@ public function appointment_booking(){
 
 }
 
+public function lawyer_schedule(){
+	$dsn ='mysqli://root:@localhost/legistifyphp';
+	$dbconnect = $this->load->database($dsn);
+
+	$lawyer_information_list=array();
+	$this->load->model('Bookings_model');
+	$lawyer_schedule = array('lawyer_uuid'=>$this->input->post('lawyer_uuid'),'user_uuid'=>$this->input->post('user_uuid'));
+	$lawyer_uuid = $lawyer_schedule["lawyer_uuid"];
+	$user_uuid = $lawyer_schedule["user_uuid"];
+		$query = $this->db->query('SELECT lawyer_uuid,site_user_uuid,date,time_slot,status,lawyer_name,
+			site_user_name FROM bookings where lawyer_uuid="'.$lawyer_uuid.'" and site_user_uuid="'.$user_uuid.'"');
+		$row = $query->row();
+		$lawyer_booking_list=array();
+		foreach ($query->result() as $row)
+				{
+		// if($row){
+				    $lawyer_uuid= $row->lawyer_uuid;
+				    $site_user_uuid= $row->site_user_uuid;
+				    $date= $row->date;
+				    $time_slot= $row->time_slot;
+				    $status= $row->status;
+				    $lawyer_name= $row->lawyer_name;
+				    $site_user_name= $row->site_user_name;
+					$lawyer_information=array("_lawyer_uuid"=>$lawyer_uuid,"site_user_uuid"=>$site_user_uuid,"date"=>$date,"time_slot"=>$time_slot,"status"=>$status,"lawyer_name"=>$lawyer_name,"site_user_name"=>$site_user_name);
+					$lawyer_booking_list[]=$lawyer_information;
+			// $all_data['appointment_request_list']=$appointment_request_list;
+		}
+		$lawyer_information_list['appointment_request_list']=$lawyer_booking_list;
+
+		$this->load->model('Schedule_model');
+		$query = $this->db->query('SELECT uuid,date,slot_info,name FROM schedule where uuid="'.$lawyer_uuid.'"');
+		$row = $query->row();
+			if($row){
+					$uuid= $row->uuid;
+				    $date= $row->date;
+				    $slot_info= $row->slot_info;
+				    $name= $row->name;
+					$lawyer_schedule_status=array("uuid"=>$uuid,"date"=>$date,"slot_info"=>$slot_info,"name"=>$name);
+					$lawyer_information_list['lawyer_schedule']=$lawyer_schedule_status;
+				}
+			echo json_encode($lawyer_information_list);
+}
+
 public function user_data_submit() 
 	{
 		$dsn ='mysqli://root:@localhost/legistifyphp';
@@ -204,7 +247,7 @@ public function mainpage_initialisation(){
 	// echo "mainpage";
 	$dsn ='mysqli://root:@localhost/legistifyphp';
 		$dbconnect = $this->load->database($dsn);
-		$all_data=array();
+		$all_data=array('current_user'=>"",'lawyer_schedule'=>array(),'appointment_request_list'=>array());
 		$this->load->model('Users_model');
 		$mainpage_uuid = array('uuid'=>$this->input->post('uuid'));
 		$uuid = $mainpage_uuid["uuid"];
