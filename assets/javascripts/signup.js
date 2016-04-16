@@ -1,27 +1,27 @@
 $(document).ready(function(){
-	$.ajax({
-    		    url: "user_data_submit",
-        		type: 'POST',
-        		data: JSON.stringify({"key":"swati"}),
-        		dataType: 'json',			    
+	// $.ajax({
+ //    		    url: "user_data_submit",
+ //        		type: 'POST',
+ //        		data: {"key":"swati"},
+ //        		dataType: 'json',			    
 
-			    //Receiving SignUp result from the server. 
-			    success : function(signup_result){
-			    	console.log(signup_result);
-			        if(signup_result.success==1 && signup_result.lawyer == '1')
-					{
-						window.open("/success_lawyer?id="+signup_result.uuid,"_self");
-					}
-					else if(signup_result.success==1 && signup_result.lawyer == '0')
-					{
-						window.open("/success_user","_self");
-					}
-			    },
-			    error : function(a,b,c){
-			    	console.log(a,b,c);
-			        console.log("Signup Call failed !!!")
-			    }
-			});
+	// 		    //Receiving SignUp result from the server. 
+	// 		    success : function(signup_result){
+	// 		    	console.log('success ',signup_result);
+	// 		        if(signup_result.success==1 && signup_result.lawyer == '1')
+	// 				{
+	// 					window.open("/success_lawyer?id="+signup_result.uuid,"_self");
+	// 				}
+	// 				else if(signup_result.success==1 && signup_result.lawyer == '0')
+	// 				{
+	// 					window.open("/success_user","_self");
+	// 				}
+	// 		    },
+	// 		    error : function(a,b,c){
+	// 		    	console.log(a,b,c);
+	// 		        console.log("Signup Call failed !!!")
+	// 		    } 	
+	// 		});
 	$("#signupform").submit(function(){
 		var first=$("#first").val();
 		var last=$('#second').val();
@@ -36,27 +36,27 @@ $(document).ready(function(){
 		{
 			// Storing SignUp details in signup credentials.
 			var signup_credentials = {"username":username,"email":email_id,"password":create_password,"firstname":first,"lastname":last, "lawyer":category_value};
-			console.log("making ajax call...");
+			console.log("making ajax call...",signup_credentials);
 
 		// Sending SignUp credentials to the server through ajax call.
 
 				$.ajax({
-    		    url: "http://localhost/legistifyphp_github/index.php/Landing_page/user_data_submit",
+    		    url: "user_data_submit",
         		type: 'POST',
-        		data: JSON.stringify(signup_credentials),
+        		data: signup_credentials,
         		// dataType: 'json',			    
 
 			    //Receiving SignUp result from the server. 
 			    success : function(signup_result){
-			    	console.log("hey");
-			        if(signup_result.success==1 && signup_result.lawyer == '1')
-					{
-						window.open("/success_lawyer?id="+signup_result.uuid,"_self");
-					}
-					else if(signup_result.success==1 && signup_result.lawyer == '0')
-					{
-						window.open("/success_user","_self");
-					}
+			    	console.log(signup_result);
+			  //       if(signup_result.success==1 && signup_result.lawyer == '1')
+					// {
+					// 	window.open("/success_lawyer?id="+signup_result.uuid,"_self");
+					// }
+					// else if(signup_result.success==1 && signup_result.lawyer == '0')
+					// {
+					// 	window.open("/success_user","_self");
+					// }
 			    },
 			    error : function(){
 			        console.log("Signup Call failed !!!")
