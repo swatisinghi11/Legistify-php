@@ -101,6 +101,46 @@ public function current_user($uuid){
 		echo "jadhfjhsdfkjhkhsdf";
 }
 
+public function update_lawyer_schedule(){
+
+	$dsn ='mysqli://root:@localhost/legistifyphp';
+	$dbconnect = $this->load->database($dsn);
+
+	$update_data= array('uuid'=>$this->input->post('uuid'),'date'=>$this->input->post('date'),'slot_info'=>$this->input->post('slot_info'));
+	$this->load->model('Schedule_model');
+	$this->Schedule_model->create_table();
+	$this->Schedule_model->update_schedule($update_data);
+
+
+}
+
+// public function lawyer_information(){
+// 	$lawyer_uuid = $this->input->post('lawyer_uuid');
+// 	$user_uuid = $this->input->post('user_uuid');
+// 	$query = $this->db->query('select uuid,date,slot_info,name from schedule where uuid="'+lawyer_uuid+'"'');
+// 		 $row = $query->row();
+// 		    if($row){
+// 		    $username= $row->username;
+// 		    $uuid= $row->uuid;
+// 		    $firstname= $row->firstname;
+// 		    $lastname= $row->lastname;
+// 		    $lawyer= $row->lawyer;
+// 		}
+// }
+
+public function appointment_booking(){
+
+	$dsn ='mysqli://root:@localhost/legistifyphp';
+	$dbconnect = $this->load->database($dsn);
+
+	$booking_data= array('lawyer_uuid'=>$this->input->post('lawyer_uuid'),'site_user_uuid'=>$this->input->post('site_user_uuid'),'date'=>$this->input->post('date'),'time_slot'=>$this->input->post('time_slot'),'status'=>$this->input->post('status'),'lawyer_name'=>$this->input->post('lawyer_name'),'site_user_name'=>$this->input->post('site_user_name'));
+	$this->load->model('Bookings_model');
+	$this->Bookings_model->create_table();
+	$this->Bookings_model->insert_row($booking_data);
+	
+
+}
+
 public function user_data_submit() 
 	{
 		$dsn ='mysqli://root:@localhost/legistifyphp';
@@ -126,7 +166,7 @@ public function user_data_submit()
 		    $lastname= $row->lastname;
 		    $lawyer= $row->lawyer;
 		    if($lawyer == "1"){
-				$this->Schedule_model->inset_default_schedule($uuid, $firstname);
+				$this->Schedule_model->insert_default_schedule($uuid, $firstname);
 			}
 		}
 		echo "successfully Created";

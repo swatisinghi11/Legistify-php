@@ -9,7 +9,7 @@ class Schedule_model extends CI_Model {
     parent::__construct();
   }
 
-  function inset_default_schedule($uuid, $firstname)
+  function insert_default_schedule($uuid, $firstname)
   {
    
         $next_day =  date('d-m-Y', strtotime(' +1 day'));
@@ -21,30 +21,16 @@ class Schedule_model extends CI_Model {
         $this->db->insert('schedule',$this);
   }  
 
-  function insert_row($data)
-  {
-    echo "inserted.......";
-    // $signup = "INSERT INTO users VALUES (".$swati['uuid'].",".$swati['username'].",".$swati['lawyer'].",".$swati['email'].",".$swati['password'].",".$swati['firstname'].", ".$swati['lastname'].",".$swati['imageId'].",".$swati['details'].",)";
-        // $this->db->query($sql);
-        // echo $this->db->affected_rows();
-        $this->db->set('uuid','UUID()',FALSE);
-        // $this->uuid = "uuid";
-        $this->username = $data['username'];
-        $this->lawyer = $data['lawyer'];
-        $this->email = $data['email'];
-        $this->password = $data['password'];
-        $this->firstname = $data['firstname'];
-        $this->lastname = $data['lastname'];
-        $this->imageId = 1;
-        $this->details = "Details not available";
+  function update_schedule($update_data){
+      $this->db->where('uuid',$update_data["uuid"]);
+      $this->db->where('date',$update_data["date"]);
+      $data=array('slot_info'=>$update_data["slot_info"]);
+      $this->db->update('schedule',$data);
+  }
 
-        
-        $this->db->insert('users',$this);
-  }  
 
   function create_table()
   { 
-    echo "i am in";
     /* Load db_forge - used to create databases and tables */
     $this->load->dbforge();
     

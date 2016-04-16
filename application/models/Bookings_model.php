@@ -12,28 +12,20 @@ class Bookings_model extends CI_Model {
 
   function insert_row($data)
   {
-    echo "inserted.......";
-    // $signup = "INSERT INTO users VALUES (".$swati['uuid'].",".$swati['username'].",".$swati['lawyer'].",".$swati['email'].",".$swati['password'].",".$swati['firstname'].", ".$swati['lastname'].",".$swati['imageId'].",".$swati['details'].",)";
-        // $this->db->query($sql);
-        // echo $this->db->affected_rows();
-        $this->db->set('uuid','UUID()',FALSE);
-        // $this->uuid = "uuid";
-        $this->username = $data['username'];
-        $this->lawyer = $data['lawyer'];
-        $this->email = $data['email'];
-        $this->password = $data['password'];
-        $this->firstname = $data['firstname'];
-        $this->lastname = $data['lastname'];
-        $this->imageId = 1;
-        $this->details = "Details not available";
-
+    
+        $this->lawyer_uuid = $data['lawyer_uuid'];
+        $this->site_user_uuid = $data['site_user_uuid'];
+        $this->date = $data['date'];
+        $this->time_slot = $data['time_slot'];
+        $this->status = $data['status'];
+        $this->lawyer_name = $data['lawyer_name'];
+        $this->site_user_name = $data['site_user_name'];;
         
-        $this->db->insert('users',$this);
+        $this->db->insert('bookings',$this);
   }  
 
   function create_table()
   { 
-    echo "i am in";
     /* Load db_forge - used to create databases and tables */
     $this->load->dbforge();
     
