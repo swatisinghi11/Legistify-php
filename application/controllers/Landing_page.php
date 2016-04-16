@@ -108,21 +108,37 @@ public function user_data_submit()
 		
 		// echo "swati";
 		// $swati = array('username'=>"dasv",'lawyer'=>'lawyer','email'=>'email','password'=>'password','firstname'=>'firstname','lastname'=>'lastname');
+		
 		$signup_credentials = array('username'=>$this->input->post('username'),'lawyer'=>$this->input->post('lawyer'),'email'=>$this->input->post('email'),'password'=>$this->input->post('password'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'));
 		$this->load->model('Users_model');
 		$this->Users_model->create_table();
 		$this->Users_model->insert_row($signup_credentials);
 
-		$query = $this->db->query('SELECT * FROM users');
+		$this->load->model('Schedule_model');
+		$this->Schedule_model->create_table();
 
-		foreach ($query->result() as $row)
-		{
-		    echo $row->uuid;
-		    echo $row->firstname;
-		    echo $row->email;
+		$query = $this->db->query('SELECT * FROM users where username="'.$signup_credentials["username"].'"');
+ 		$row = $query->row();
+		if($row){
+		    $username= $row->username;
+		    $uuid= $row->uuid;
+		    $firstname= $row->firstname;
+		    $lastname= $row->lastname;
+		    $lawyer= $row->lawyer;
+		    if($lawyer == "1"){
+				$this->Schedule_model->inset_default_schedule($uuid, $firstname);
+			}
 		}
+		echo "successfully Created";
+		// foreach ($query->result() as $row)
+		// {
+		//     echo $row->uuid;
+		//     echo $row->firstname;
+		//     echo $row->email;
+		// }
 
-		echo 'Total Results: ' . $query->num_rows();
+
+		// echo 'Total Results: ' . $query->num_rows();
 
     
 //Either you can print value or you can send value to database

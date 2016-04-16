@@ -9,6 +9,18 @@ class Schedule_model extends CI_Model {
     parent::__construct();
   }
 
+  function inset_default_schedule($uuid, $firstname)
+  {
+   
+        $next_day =  date('d-m-Y', strtotime(' +1 day'));
+        $this->uuid = $uuid;
+        $this->name = $firstname;
+        $this->date = $next_day;
+        $this->slot_info = "1100-1300:1,1500-1700:1,1900-2100:1";
+        
+        $this->db->insert('schedule',$this);
+  }  
+
   function insert_row($data)
   {
     echo "inserted.......";
