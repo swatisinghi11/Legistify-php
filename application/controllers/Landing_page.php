@@ -54,24 +54,51 @@ public function authentication()
 		 $signin = array('username'=>$this->input->post('username'),'password'=>$this->input->post('password'));
 		 // $signin = array('username'=>"SwatiSinghi",'password'=>"1");
 		 $entered_username = $signin["username"];
-		 $query = $this->db->query('SELECT username, password FROM users where username="'.$entered_username.'"');
+		 $query = $this->db->query('SELECT username, uuid, password FROM users where username="'.$entered_username.'"');
 		    $row = $query->row();
+		    $uuid="none";
+		    $success=0;
 		    if($row){
 		    $username= $row->username;
 		    $password= $row->password;
+		    $uuid= $row->uuid;
     		    if($password==$signin['password'])
     		    {
-    		    	echo $row->username;
-		    		echo $row->password;
+    		 //   	echo $row->username;
+		    		// echo $row->password;
+		    		// echo $row->uuid;
+		    		$success=1;
+
+
     		    }
     		    else{
-    		    	echo "Wrong pass word";
+    		    	// echo "Wrong pass word";
+    		    	$success=-1;
     		    }
     		}
     		else{
-    			echo "user name does not exists.";
+    			// echo "user name does not exists.";
+    			$success=0;
     		}
-		
+    		$uuid_success=array("uuid"=>$uuid,"success"=>$success);
+			echo json_encode($uuid_success);
+			
+}
+
+public function current_user($uuid){
+	$dsn ='mysqli://root:@localhost/legistifyphp';
+		 $dbconnect = $this->load->database($dsn);
+		 $this->load->view('main_page_view');
+		 $query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
+		 $row = $query->row();
+		    if($row){
+		    $username= $row->username;
+		    $uuid= $row->uuid;
+		    $firstname= $row->firstname;
+		    $lastname= $row->lastname;
+		    $lawyer= $row->lawyer;
+		}
+		echo "jadhfjhsdfkjhkhsdf";
 }
 
 public function user_data_submit() 
@@ -81,10 +108,10 @@ public function user_data_submit()
 		
 		// echo "swati";
 		// $swati = array('username'=>"dasv",'lawyer'=>'lawyer','email'=>'email','password'=>'password','firstname'=>'firstname','lastname'=>'lastname');
-		$swati = array('username'=>$this->input->post('username'),'lawyer'=>$this->input->post('lawyer'),'email'=>$this->input->post('email'),'password'=>$this->input->post('password'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'));
+		$signup_credentials = array('username'=>$this->input->post('username'),'lawyer'=>$this->input->post('lawyer'),'email'=>$this->input->post('email'),'password'=>$this->input->post('password'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'));
 		$this->load->model('Users_model');
 		$this->Users_model->create_table();
-		$this->Users_model->insert_row($swati);
+		$this->Users_model->insert_row($signup_credentials);
 
 		$query = $this->db->query('SELECT * FROM users');
 

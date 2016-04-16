@@ -12,11 +12,13 @@ $(document).ready(function(){
 			    type: 'POST',
 			    url: "authentication",
 			    data: signin_credentials,
-			    // dataType: "json",
+			    dataType: "json",
 		    //Receiving SignIn result from the server. 
 			    success : function(signin_result){
 			    	console.log(signin_result);
+			    	var uuid=signin_result.uuid;
 			    	console.log("successfully signed in!!!!!!!!!!!!!!");
+			    	window.open("current_user/"+uuid,"_self");
 			  //       if(signin_result.success==1)
 					// {
 					// 	window.open();
