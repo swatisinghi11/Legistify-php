@@ -275,7 +275,7 @@ public function mainpage_initialisation(){
 		    		$all_lawyers[]=$lawyer_detail;
 				}
 			
-				$all_data['all_lawyers']=$all_lawyers;
+				$all_data['lawyer_list']=$all_lawyers;
 
 			}
 
