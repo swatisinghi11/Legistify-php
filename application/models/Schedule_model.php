@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Users_model extends CI_Model {
+class Schedule_model extends CI_Model {
   
   
   function __construct() 
@@ -42,29 +42,13 @@ class Users_model extends CI_Model {
                     'uuid' => array(
                                   'type' => 'text'
                               ),
-                    'username' => array(
-                                  'type' => 'VARCHAR',
-                                  'constraint' => '255'
+                    'date' => array(
+                                  'type'=>'text'
                               ),
-                    'lawyer'=> array(
+                    'slot_info'=> array(
                                     'type'=>'text'
                                     ),
-                    'email'=>array(
-                                    'type'=>'text'
-                                    ),
-                    'password'=>array(
-                                    'type'=>'text'
-                                    ),
-                    'firstname'=>array(
-                                    'type'=>'text'
-                                    ),
-                    'lastname'=>array(
-                                    'type'=>'text'
-                                    ),
-                    'imageId'=>array(
-                                    'type'=>'int'
-                                    ),
-                    'details'=>array(
+                    'name'=>array(
                                     'type'=>'text'
                                     )
                     // 'date TIMESTAMP DEFAULT CURRENT_TIMESTAMP'
@@ -75,11 +59,9 @@ class Users_model extends CI_Model {
     
     
     /* Specify the primary key to the 'id' field */
-    $this->dbforge->add_key('username', TRUE);
-    
     
     /* Create the table (if it doesn't already exist) */
-    $this->dbforge->create_table('users', TRUE);
+    $this->dbforge->create_table('schedule', TRUE);
     echo "table successfully created";
   } 
 
