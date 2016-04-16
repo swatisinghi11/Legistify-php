@@ -2,6 +2,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Landing_page extends CI_Controller {
+	function __construct() 
+	  {
+	    /* Call the Model constructor */
+	    parent::__construct();
+	    $dsn ='mysqli://root:@localhost/legistifyphp';
+		$dbconnect = $this->load->database($dsn);
+		$this->load->model('Users_model');
+		$this->Users_model->create_table();
+		$this->load->model('Schedule_model');
+		$this->Schedule_model->create_table();
+		$this->load->model('Bookings_model');
+		$this->Bookings_model->create_table();
+
+
+	  }
 public function index()
 	{
 		$this->load->view('landing_page');
@@ -89,16 +104,16 @@ public function current_user($uuid){
 	$dsn ='mysqli://root:@localhost/legistifyphp';
 		 $dbconnect = $this->load->database($dsn);
 		 $this->load->view('main_page_view');
-		 $query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
-		 $row = $query->row();
-		    if($row){
-		    $username= $row->username;
-		    $uuid= $row->uuid;
-		    $firstname= $row->firstname;
-		    $lastname= $row->lastname;
-		    $lawyer= $row->lawyer;
-		}
-		echo "jadhfjhsdfkjhkhsdf";
+		//  $query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
+		//  $row = $query->row();
+		//     if($row){
+		//     $username= $row->username;
+		//     $uuid= $row->uuid;
+		//     $firstname= $row->firstname;
+		//     $lastname= $row->lastname;
+		//     $lawyer= $row->lawyer;
+		// }
+		// echo "jadhfjhsdfkjhkhsdf";
 }
 
 public function update_lawyer_schedule(){
@@ -183,5 +198,87 @@ public function user_data_submit()
     
 //Either you can print value or you can send value to database
 	// echo json_encode($swati);
-}
+	}
+
+public function mainpage_initialisation(){
+	// echo "mainpage";
+	$dsn ='mysqli://root:@localhost/legistifyphp';
+		$dbconnect = $this->load->database($dsn);
+		$all_data=array();
+		$this->load->model('Users_model');
+		$mainpage_uuid = array('uuid'=>$this->input->post('uuid'));
+		$uuid = $mainpage_uuid["uuid"];
+		$query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
+		$row = $query->row();
+		$username="none";
+		$lawyer=0;
+	    if($row){
+		    $username= $row->username;
+		    $uuid= $row->uuid;
+		    $firstname= $row->firstname;
+		    $lastname= $row->lastname;
+		    $lawyer= $row->lawyer;
+		    $current_user=array("uuid"=>$uuid,"username"=>$username,"firstname"=>$firstname,"lastname"=>$lastname,"lawyer"=>$lawyer);
+		    $all_data['current_user']=$current_user;
+		}
+
+		if($lawyer==1)
+		{
+			$dsn ='mysqli://root:@localhost/legistifyphp';
+			$dbconnect = $this->load->database($dsn);
+			$this->load->model('Schedule_model');
+			$query = $this->db->query('SELECT uuid,date,slot_info,name FROM schedule where uuid="'.$uuid.'"');
+			
+			$row = $query->row();
+			if($row){
+			    $uuid= $row->uuid;
+			    $date= $row->date;
+			    $slot_info= $row->slot_info;
+			    $name= $row->name;
+				$lawyer_schedule=array("uuid"=>$uuid,"date"=>$date,"slot_info"=>$slot_info,"name"=>$name);
+				$all_data['lawyer_schedule']=$lawyer_schedule;
+
+			}
+
+			$this->load->model('Bookings_model');
+			$query = $this->db->query('SELECT lawyer_uuid,site_user_uuid,date,time_slot,status,lawyer_name,site_user_name FROM bookings where lawyer_uuid="'.$uuid.'"');
+			$row = $query->row();
+			if($row){
+			    $lawyer_uuid= $row->lawyer_uuid;
+			    $site_user_uuid= $row->site_user_uuid;
+			    $date= $row->date;
+			    $time_slot= $row->time_slot;
+			    $status= $row->status;
+			    $lawyer_name= $row->lawyer_name;
+			    $site_user_name= $row->site_user_name;
+				$appointment_request_list=array("_lawyer_uuid"=>$lawyer_uuid,"site_user_uuid"=>$site_user_uuid,"date"=>$date,"time_slot"=>$time_slot,"status"=>$status,"lawyer_name"=>$lawyer_name,"site_user_name"=>$site_user_name);
+				$all_data['appointment_request_list']=$appointment_request_list;
+			}
+		}
+		else{
+			$dsn ='mysqli://root:@localhost/legistifyphp';
+			$dbconnect = $this->load->database($dsn);
+			$this->load->model('Schedule_model');
+			$all_lawyers=array();
+			$query = $this->db->query('SELECT uuid,username,firstname,lastname,lawyer,email,imageId,details FROM users where lawyer="1"');
+			foreach ($query->result() as $row)
+				{
+					$username= $row->username;
+				    $uuid= $row->uuid;
+				    $firstname= $row->firstname;
+				    $lastname= $row->lastname;
+				    $lawyer= $row->lawyer;
+				    $email= $row->email;
+				    $imageId= $row->imageId;
+				    $details= $row->details;
+		    		$lawyer_detail=array("uuid"=>$uuid,"username"=>$username,"firstname"=>$firstname,"lastname"=>$lastname,"lawyer"=>$lawyer,"email"=>$email,"imageId"=>$imageId,"details"=>$details);
+		    		$all_lawyers[]=$lawyer_detail;
+				}
+			
+				$all_data['all_lawyers']=$all_lawyers;
+
+			}
+
+		echo json_encode($all_data);
+	}
 }

@@ -20,6 +20,7 @@ class Bookings_model extends CI_Model {
         $this->status = $data['status'];
         $this->lawyer_name = $data['lawyer_name'];
         $this->site_user_name = $data['site_user_name'];;
+
         
         $this->db->insert('bookings',$this);
   }  
@@ -64,7 +65,6 @@ class Bookings_model extends CI_Model {
     
     /* Create the table (if it doesn't already exist) */
     $this->dbforge->create_table('bookings', TRUE);
-    echo "table successfully created";
   } 
 
 

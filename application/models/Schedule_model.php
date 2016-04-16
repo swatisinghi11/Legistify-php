@@ -10,8 +10,7 @@ class Schedule_model extends CI_Model {
   }
 
   function insert_default_schedule($uuid, $firstname)
-  {
-   
+  {   
         $next_day =  date('d-m-Y', strtotime(' +1 day'));
         $this->uuid = $uuid;
         $this->name = $firstname;
@@ -60,7 +59,6 @@ class Schedule_model extends CI_Model {
     
     /* Create the table (if it doesn't already exist) */
     $this->dbforge->create_table('schedule', TRUE);
-    echo "table successfully created";
   } 
 
 

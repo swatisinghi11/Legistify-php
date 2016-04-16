@@ -1,5 +1,9 @@
 $(document).ready(function(){
 	
+	var base_url = window.location.origin;
+	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/user_data_submit";
+	var post_url_openshift = base_url+"/index.php/Landing_page/user_data_submit";
+	
 	$("#signupform").submit(function(){
 		var first=$("#first").val();
 		var last=$('#second').val();
@@ -19,7 +23,7 @@ $(document).ready(function(){
 		// Sending SignUp credentials to the server through ajax call.
 
 				$.ajax({
-    		    url: "user_data_submit",
+    		    url: post_url_localhost,
         		type: 'POST',
         		data: signup_credentials,
         		// dataType: 'json',			    
