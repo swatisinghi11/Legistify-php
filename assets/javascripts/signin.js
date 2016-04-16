@@ -10,17 +10,17 @@ $(document).ready(function(){
 	// Sending SignIn credentials to the server through ajax call.
 		$.ajax({
 			    type: 'POST',
-			    url: '/authentication',
-			    data: JSON.stringify(signin_credentials),
-			    contentType: "application/json; charset=utf-8",
-			    dataType: "json",
-			    processData : false,
+			    url: "authentication",
+			    data: signin_credentials,
+			    // dataType: "json",
 		    //Receiving SignIn result from the server. 
 			    success : function(signin_result){
-			        if(signin_result.success==1)
-					{
-						window.open("/mainpage?id="+signin_result.uuid,"_self");
-					}
+			    	console.log(signin_result);
+			    	console.log("successfully signed in!!!!!!!!!!!!!!");
+			  //       if(signin_result.success==1)
+					// {
+					// 	window.open();
+					// }
 			    },
 			    error : function(){
 			        console.log("Signin Call failed !!!")

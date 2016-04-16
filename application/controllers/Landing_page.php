@@ -46,12 +46,39 @@ public function signup()
 		$this->load->view('signup');
 	}
 
+public function authentication()
+{
+	$dsn ='mysqli://root:@localhost/legistifyphp';
+		 $dbconnect = $this->load->database($dsn);
+		 $this->load->model('Users_model');
+		 $signin = array('username'=>$this->input->post('username'),'password'=>$this->input->post('password'));
+		 // $signin = array('username'=>"SwatiSinghi",'password'=>"1");
+		 $entered_username = $signin["username"];
+		 $query = $this->db->query('SELECT username, password FROM users where username="'.$entered_username.'"');
+		    $row = $query->row();
+		    if($row){
+		    $username= $row->username;
+		    $password= $row->password;
+    		    if($password==$signin['password'])
+    		    {
+    		    	echo $row->username;
+		    		echo $row->password;
+    		    }
+    		    else{
+    		    	echo "Wrong pass word";
+    		    }
+    		}
+    		else{
+    			echo "user name does not exists.";
+    		}
+		
+}
+
 public function user_data_submit() 
 	{
 		$dsn ='mysqli://root:@localhost/legistifyphp';
 		 $dbconnect = $this->load->database($dsn);
 		
-		// $bestu= $this->input->post('key');
 		// echo "swati";
 		// $swati = array('username'=>"dasv",'lawyer'=>'lawyer','email'=>'email','password'=>'password','firstname'=>'firstname','lastname'=>'lastname');
 		$swati = array('username'=>$this->input->post('username'),'lawyer'=>$this->input->post('lawyer'),'email'=>$this->input->post('email'),'password'=>$this->input->post('password'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'));

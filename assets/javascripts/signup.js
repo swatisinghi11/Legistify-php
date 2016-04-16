@@ -1,27 +1,5 @@
 $(document).ready(function(){
-	// $.ajax({
- //    		    url: "user_data_submit",
- //        		type: 'POST',
- //        		data: {"key":"swati"},
- //        		dataType: 'json',			    
-
-	// 		    //Receiving SignUp result from the server. 
-	// 		    success : function(signup_result){
-	// 		    	console.log('success ',signup_result);
-	// 		        if(signup_result.success==1 && signup_result.lawyer == '1')
-	// 				{
-	// 					window.open("/success_lawyer?id="+signup_result.uuid,"_self");
-	// 				}
-	// 				else if(signup_result.success==1 && signup_result.lawyer == '0')
-	// 				{
-	// 					window.open("/success_user","_self");
-	// 				}
-	// 		    },
-	// 		    error : function(a,b,c){
-	// 		    	console.log(a,b,c);
-	// 		        console.log("Signup Call failed !!!")
-	// 		    } 	
-	// 		});
+	
 	$("#signupform").submit(function(){
 		var first=$("#first").val();
 		var last=$('#second').val();
