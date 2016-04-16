@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Users_model extends CI_Model {
+
+class Bookings_model extends CI_Model {
   
   
   function __construct() 
@@ -39,32 +40,25 @@ class Users_model extends CI_Model {
     
     /* Specify the table schema */
     $fields = array(
-                    'uuid' => array(
+                    'lawyer_uuid' => array(
                                   'type' => 'text'
                               ),
-                    'username' => array(
-                                  'type' => 'VARCHAR',
-                                  'constraint' => '255'
+                    'site_user_uuid' => array(
+                                  'type'=>'text'
                               ),
-                    'lawyer'=> array(
+                    'date'=> array(
                                     'type'=>'text'
                                     ),
-                    'email'=>array(
+                    'time_slot'=>array(
                                     'type'=>'text'
                                     ),
-                    'password'=>array(
-                                    'type'=>'text'
-                                    ),
-                    'firstname'=>array(
-                                    'type'=>'text'
-                                    ),
-                    'lastname'=>array(
-                                    'type'=>'text'
-                                    ),
-                    'imageId'=>array(
-                                    'type'=>'int'
-                                    ),
-                    'details'=>array(
+                    'status' => array(
+                                  'type' => 'text'
+                              ),
+                    'lawyer_name' => array(
+                                  'type'=>'text'
+                              ),
+                    'site_user_name'=> array(
                                     'type'=>'text'
                                     )
                     // 'date TIMESTAMP DEFAULT CURRENT_TIMESTAMP'
@@ -74,12 +68,10 @@ class Users_model extends CI_Model {
     $this->dbforge->add_field($fields);
     
     
-    /* Specify the primary key to the 'id' field */
-    $this->dbforge->add_key('username', TRUE);
-    
+    /* Specify the primary key to the 'id' field */    
     
     /* Create the table (if it doesn't already exist) */
-    $this->dbforge->create_table('users', TRUE);
+    $this->dbforge->create_table('bookings', TRUE);
     echo "table successfully created";
   } 
 
