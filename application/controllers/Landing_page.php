@@ -89,16 +89,16 @@ public function current_user($uuid){
 	$dsn ='mysqli://root:@localhost/legistifyphp';
 		 $dbconnect = $this->load->database($dsn);
 		 $this->load->view('main_page_view');
-		 $query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
-		 $row = $query->row();
-		    if($row){
-		    $username= $row->username;
-		    $uuid= $row->uuid;
-		    $firstname= $row->firstname;
-		    $lastname= $row->lastname;
-		    $lawyer= $row->lawyer;
-		}
-		echo "jadhfjhsdfkjhkhsdf";
+		//  $query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
+		//  $row = $query->row();
+		//     if($row){
+		//     $username= $row->username;
+		//     $uuid= $row->uuid;
+		//     $firstname= $row->firstname;
+		//     $lastname= $row->lastname;
+		//     $lawyer= $row->lawyer;
+		// }
+		// echo "jadhfjhsdfkjhkhsdf";
 }
 
 public function user_data_submit() 
@@ -127,5 +127,28 @@ public function user_data_submit()
     
 //Either you can print value or you can send value to database
 	// echo json_encode($swati);
-}
+	}
+
+public function mainpage_initialisation(){
+	echo "mainpage";
+	$dsn ='mysqli://root:@localhost/legistifyphp';
+		$dbconnect = $this->load->database($dsn);
+		$this->load->model('Users_model');
+		$mainpage_uuid = array('uuid'=>$this->input->post('uuid'));
+		$uuid = $mainpage_uuid["uuid"];
+		$query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
+		$row = $query->row();
+		$username="none";
+		    if($row){
+		    $username= $row->username;
+		    $uuid= $row->uuid;
+		    $firstname= $row->firstname;
+		    $lastname= $row->lastname;
+		    $lawyer= $row->lawyer;
+		}
+		$all_data=array("uuid"=>$uuid,"username"=>$username);
+		echo json_encode($all_data);
+	}
+
+
 }

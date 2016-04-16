@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php echo script_tag('bootstrap.min.js')?>
     <?php echo script_tag('navigate.js')?>
     <?php echo script_tag('signin.js')?> 
+    <?php echo script_tag('mainPage.js')?> 
 
 		<title>Legistify</title>
 
