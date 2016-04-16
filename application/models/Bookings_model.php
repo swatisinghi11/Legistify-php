@@ -25,6 +25,16 @@ class Bookings_model extends CI_Model {
         $this->db->insert('bookings',$this);
   }  
 
+  function update_booking($update_data){
+      $this->db->where('lawyer_uuid',$update_data["lawyer_uuid"]);
+      $this->db->where('site_user_uuid',$update_data["site_user_uuid"]);
+      $this->db->where('date',$update_data["date"]);
+      $this->db->where('time_slot',$update_data["time_slot"]);
+      $data=array('status'=>$update_data["status"]);
+      $this->db->update('bookings',$data);
+      
+  }
+
   function create_table()
   { 
     /* Load db_forge - used to create databases and tables */

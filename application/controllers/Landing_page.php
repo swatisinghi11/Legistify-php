@@ -20,32 +20,7 @@ class Landing_page extends CI_Controller {
 public function index()
 	{
 		$this->load->view('landing_page');
-		// $dsn ='mysqli://root:@localhost/legistifyphp';
-		//  $dbconnect = $this->load->database($dsn);
-		//  // $dbconnect = $this->load->database();
-
-
-	 //     Load the database model:
-	 //      /application/models/simple_model.php 
-	 //    $this->load->model('Simple_model');
-	    
-
-	 //    /* Create a table if it doesn't exist already */
-	 //    $this->Simple_model->create_table();
-	    
-	    
-	 //     Call the "insert_item" entry 
-	 //    $this->Simple_model->insert_item('Swati!');
-
-	 //    /* Retrieve the last item  */
-	 //    print '<pre>';
-	 //    print_r($this->Simple_model->get_last_item());
-	 //    print '</pre>';
-
-	 //    /* Retrieve and print the row count */
-	 //    $rowcount = $this->Simple_model->get_row_count();
-	 //    print '<strong>Row count: ' . $rowcount . '</strong>';
-    
+		
 	}
 public function signin()
 	{
@@ -79,12 +54,7 @@ public function authentication()
 		    $uuid= $row->uuid;
     		    if($password==$signin['password'])
     		    {
-    		 //   	echo $row->username;
-		    		// echo $row->password;
-		    		// echo $row->uuid;
 		    		$success=1;
-
-
     		    }
     		    else{
     		    	// echo "Wrong pass word";
@@ -324,5 +294,58 @@ public function mainpage_initialisation(){
 			}
 
 		echo json_encode($all_data);
+	}
+
+	public function booking_appointment_status(){
+		$dsn ='mysqli://root:@localhost/legistifyphp';
+			$dbconnect = $this->load->database($dsn);
+			$this->load->model('Bookings_model');
+			// $query = $this->db->query('UPDATE lFupadawyer_uuid,site_user_uuid,date,time_slot,status,lawyer_name,
+			// site_user_name FROM bookings where lawyer_uuid="'.$lawyer_uuid.'" and site_user_uuid="'.$user_uuid.'"');
+
+			$update_data= array('lawyer_uuid'=>$this->input->post('lawyer_uuid'),'site_user_uuid'=>$this->input->post('site_user_uuid'),'date'=>$this->input->post('date'),'time_slot'=>$this->input->post('time_slot'),'status'=>$this->input->post('status'),'lawyer_name'=>$this->input->post('lawyer_name'),'site_user_name'=>$this->input->post('site_user_name'));
+			$this->load->model('Bookings_model');
+			$this->Bookings_model->create_table();
+			$this->Bookings_model->update_booking($update_data);
+
+			$this->load->model('Schedule_model');
+			$query = $this->db->query('SELECT uuid,date,slot_info,name FROM schedule where uuid="'.$update_data["lawyer_uuid"].'"');
+			
+			$row = $query->row();
+			if($row){
+			    $uuid= $row->uuid;
+			    $date= $row->date;
+			    $slot_info= $row->slot_info;
+			    $name= $row->name;
+				// $lawyer_schedule=array("uuid"=>$uuid,"date"=>$date,"slot_info"=>$slot_info,"name"=>$name);
+				// $all_data['lawyer_schedule']=$lawyer_schedule;
+				if($update_data["status"] == 2){
+					$slot_status_pair_list = explode(",",$slot_info);
+					$final_slot_info = "";
+					$count = 1;
+					foreach ($slot_status_pair_list as $slot_status_pair) {
+						$slot_status = explode(":",$slot_status_pair);
+						$updated_value = $slot_status_pair;
+						if($slot_status[0] == $update_data["time_slot"]){
+							$updated_value = $slot_status[0].":2";
+						}
+						if($count == sizeof($slot_status_pair_list) ){
+							$final_slot_info = $final_slot_info.$updated_value;
+							continue;
+						}
+						$final_slot_info = $final_slot_info.$updated_value.",";
+						$count = $count + 1;
+					}
+					$final_update_data= array('uuid'=>$update_data['lawyer_uuid'],'date'=>$update_data['date'],'slot_info'=>$final_slot_info);
+					$this->load->model('Schedule_model');
+					$this->Schedule_model->create_table();
+					$this->Schedule_model->update_schedule($final_update_data);
+				}
+				
+
+			}
+
+
+
 	}
 }

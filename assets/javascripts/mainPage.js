@@ -14,6 +14,61 @@ function logout(){
 	window.open(post_url_localhost,"_self");
 }
 
+function acceptRequest(site_user_uuid,date,time_slot,site_user_name){
+	console.log("acceptRequest");
+	var request_data = {'lawyer_uuid':global_uuid,'site_user_uuid':site_user_uuid,'date':date,'time_slot':time_slot,'status':'2','lawyer_name':current_user.firstname,'site_user_name':site_user_name}
+	// socket.emit('booking_appointment_status',request_data);
+	var base_url = window.location.origin;
+	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/booking_appointment_status";
+	var post_url_openshift = base_url+"/index.php/Landing_page/booking_appointment_status";
+	$.ajax({
+		    type: 'POST',
+		    url: post_url_localhost,
+		    data: request_data,
+		    // dataType: "json",
+		    success : function(user_data){
+		    	console.log("return accept data");
+		    	console.log(user_data);
+		    	alert("Booking Confimed!!!");
+		    	
+		    },
+		    error : function(a,b,c){
+
+		        console.log("Try Again !!!",a,b,c);
+		        alert("Try Again !!!");
+		    }
+		});
+}
+
+// If the lawyer rejects the request, the same is sent to the server. 
+function rejectRequest(site_user_uuid,date,time_slot,site_user_name){
+	console.log("rejectRequest");
+	var request_data = {'lawyer_uuid':global_uuid,'site_user_uuid':site_user_uuid,'date':date,'time_slot':time_slot,'status':'0','lawyer_name':current_user.firstname,'site_user_name':site_user_name}
+	// socket.emit('booking_appointment_status',request_data);
+	var base_url = window.location.origin;
+	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/booking_appointment_status";
+	var post_url_openshift = base_url+"/index.php/Landing_page/booking_appointment_status";
+	$.ajax({
+		    type: 'POST',
+		    url: post_url_localhost,
+		    data: request_data,
+		    // dataType: "json",
+		    success : function(user_data){
+		    	console.log("return reject data");
+		    	console.log(user_data);
+		    	alert("Booking Rejected!!!");
+		    	
+		    },
+		    error : function(a,b,c){
+
+		        console.log("Try Again !!!",a,b,c);
+		        alert("Try Again !!!");
+		    }
+		});
+}
+
+
+
 function show_selected_lawyer(lawyer_information){
 	var lawyer_schedule = lawyer_information.lawyer_schedule;
 	        var appointment_request_list = lawyer_information.appointment_request_list;
@@ -37,14 +92,14 @@ function show_selected_lawyer(lawyer_information){
 
 			for(var i = 0 ; i < appointment_request_list.length ; i++){
 				var appointment_request = appointment_request_list[i];
-				var current_date = new Date();
-				var nextDay = new Date();
-				nextDay.setDate(current_date.getDate()+1);
-				var date_params = nextDay.toString().split(" ");
-                var next_date_str = date_params[2]+"-"+date_params[1]+"-"+date_params[3];
-                if(appointment_request.date != next_date_str){
-                		continue;
-                }
+				// var current_date = new Date();
+				// var nextDay = new Date();
+				// nextDay.setDate(current_date.getDate()+1);
+				// var date_params = nextDay.toString().split(" ");
+    //             var next_date_str = date_params[2]+"-"+date_params[1]+"-"+date_params[3];
+    //             if(appointment_request.date != next_date_str){
+    //             		continue;
+    //             }
 				document.getElementById(appointment_request.date+"_"+appointment_request.time_slot+"_status").innerHTML ='Current Status - '+appointment_status_map[appointment_request.status];
 				document.getElementById(appointment_request.date+"_"+appointment_request.time_slot+"_0").disabled = true;
 			}
@@ -238,14 +293,14 @@ function populate_lawyer_page(user_data){
 			var appointment_request = appointment_request_list[i];
 			if(appointment_request.status == "2"){
 				var date = appointment_request.date;
-				var current_date = new Date();
-				var nextDay = new Date();
-				nextDay.setDate(current_date.getDate()+1);
-				var date_params = nextDay.toString().split(" ");
-                var next_date_str = date_params[2]+"-"+date_params[1]+"-"+date_params[3];
-                if(date != next_date_str){
-                		continue;
-                }
+				// var current_date = new Date();
+				// var nextDay = new Date();
+				// nextDay.setDate(current_date.getDate()+1);
+				// var date_params = nextDay.toString().split(" ");
+    //             var next_date_str = date_params[2]+"-"+date_params[1]+"-"+date_params[3];
+    //             if(date != next_date_str){
+    //             		continue;
+    //             }
 				var time_slot = appointment_request.time_slot;
 				console.log(date,time_slot)
 				$("#"+date+"_"+time_slot+"_2").prop("checked", true);
