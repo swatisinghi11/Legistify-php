@@ -140,7 +140,7 @@ function updateSchedule(){
 		    // dataType: "json",
 	    //Receiving SignIn result from the server. 
 		    success : function(user_data){
-		    	console.log("return mainpage data");
+		    	console.log("updating the schedule..........................");
 		    	console.log(user_data);
 		    	alert("Schedule successfully updated!!!");
 		  //   	current_user = user_data.current_user;
@@ -253,7 +253,7 @@ function populate_site_user_page(user_data){
 
 // Initializes the lawyer page when lawyer first loads the page
 function populate_lawyer_page(user_data){
-
+	console.log("populate_lawyer_page")
 	current_user = user_data.current_user;
 	var appointment_request_list = user_data.appointment_request_list;
 	var lawyer_schedule = user_data.lawyer_schedule;
@@ -331,6 +331,8 @@ function populate_lawyer_page(user_data){
 }
 
 function get_same_lawyer(){
+	console.log("get_same_lawyer")
+
 	 var base_url = window.location.origin;
 	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/lawyer_schedule";
 	var post_url_openshift = base_url+"/index.php/Landing_page/lawyer_schedule";
@@ -354,6 +356,8 @@ function get_same_lawyer(){
 }
 
 function reload(){
+	console.log("Reload.....")
+
 	var base_url = window.location.origin;
 	var post_url_localhost = base_url+"/legistifyphp_github/index.php/Landing_page/mainpage_initialisation";
 	var post_url_openshift = base_url+"/index.php/Landing_page/mainpage_initialisation";
@@ -367,8 +371,10 @@ function reload(){
 		    	console.log("return mainpage data");
 		    	console.log(user_data);
 		    	current_user = user_data.current_user;
+		    	schedule_time_slot = []
 				if(current_user.lawyer == "0"){
 					populate_site_user_page(user_data)
+		    		schedule_time_slot = []
 					get_same_lawyer()
 				}
 				else{
@@ -416,6 +422,6 @@ $(document).ready(function(){
 		    }
 		});
 	// event.preventDefault();
-	setInterval(reload, 5000);
+	setInterval(reload, 7000);
 
 });

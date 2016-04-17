@@ -96,6 +96,17 @@ public function update_lawyer_schedule(){
 	$this->Schedule_model->create_table();
 	$this->Schedule_model->update_schedule($update_data);
 
+	$this->load->model('Schedule_model');
+		$query = $this->db->query('SELECT uuid,date,slot_info,name FROM schedule where uuid="'.$update_data["uuid"].'"');
+		$row = $query->row();
+			if($row){
+					$uuid= $row->uuid;
+				    $date= $row->date;
+				    $slot_info= $row->slot_info;
+				    $name= $row->name;
+				    echo $slot_info;
+				}
+
 
 }
 
@@ -341,7 +352,7 @@ public function mainpage_initialisation(){
 					$this->Schedule_model->create_table();
 					$this->Schedule_model->update_schedule($final_update_data);
 				}
-				
+
 
 			}
 
