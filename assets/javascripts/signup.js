@@ -32,14 +32,7 @@ $(document).ready(function(){
 			    success : function(signup_result){
 			    	console.log(signup_result);
 			    	window.open("success","_self");
-			  //       if(signup_result.success==1 && signup_result.lawyer == '1')
-					// {
-					// 	window.open("/success_lawyer?id="+signup_result.uuid,"_self");
-					// }
-					// else if(signup_result.success==1 && signup_result.lawyer == '0')
-					// {
-					// 	window.open("/success_user","_self");
-					// }
+			 
 			    },
 			    error : function(){
 			        console.log("Signup Call failed !!!")

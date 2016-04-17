@@ -71,19 +71,10 @@ public function authentication()
 }
 
 public function current_user($uuid){
-	$dsn ='mysqli://root:@localhost/legistifyphp';
-		 $dbconnect = $this->load->database($dsn);
-		 $this->load->view('main_page_view');
-		//  $query = $this->db->query('SELECT username, uuid, firstname,lastname,lawyer FROM users where uuid="'.$uuid.'"');
-		//  $row = $query->row();
-		//     if($row){
-		//     $username= $row->username;
-		//     $uuid= $row->uuid;
-		//     $firstname= $row->firstname;
-		//     $lastname= $row->lastname;
-		//     $lawyer= $row->lawyer;
-		// }
-		// echo "jadhfjhsdfkjhkhsdf";
+		$dsn ='mysqli://root:@localhost/legistifyphp';
+		$dbconnect = $this->load->database($dsn);
+		$this->load->view('main_page_view');
+		
 }
 
 public function update_lawyer_schedule(){
@@ -110,19 +101,6 @@ public function update_lawyer_schedule(){
 
 }
 
-// public function lawyer_information(){
-// 	$lawyer_uuid = $this->input->post('lawyer_uuid');
-// 	$user_uuid = $this->input->post('user_uuid');
-// 	$query = $this->db->query('select uuid,date,slot_info,name from schedule where uuid="'+lawyer_uuid+'"'');
-// 		 $row = $query->row();
-// 		    if($row){
-// 		    $username= $row->username;
-// 		    $uuid= $row->uuid;
-// 		    $firstname= $row->firstname;
-// 		    $lastname= $row->lastname;
-// 		    $lawyer= $row->lawyer;
-// 		}
-// }
 
 public function appointment_booking(){
 
@@ -184,9 +162,6 @@ public function user_data_submit()
 		$dsn ='mysqli://root:@localhost/legistifyphp';
 		 $dbconnect = $this->load->database($dsn);
 		
-		// echo "swati";
-		// $swati = array('username'=>"dasv",'lawyer'=>'lawyer','email'=>'email','password'=>'password','firstname'=>'firstname','lastname'=>'lastname');
-		
 		$signup_credentials = array('username'=>$this->input->post('username'),'lawyer'=>$this->input->post('lawyer'),'email'=>$this->input->post('email'),'password'=>$this->input->post('password'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'));
 		$this->load->model('Users_model');
 		$this->Users_model->create_table();
@@ -208,23 +183,9 @@ public function user_data_submit()
 			}
 		}
 		echo "successfully Created";
-		// foreach ($query->result() as $row)
-		// {
-		//     echo $row->uuid;
-		//     echo $row->firstname;
-		//     echo $row->email;
-		// }
-
-
-		// echo 'Total Results: ' . $query->num_rows();
-
-    
-//Either you can print value or you can send value to database
-	// echo json_encode($swati);
 	}
 
 public function mainpage_initialisation(){
-	// echo "mainpage";
 	$dsn ='mysqli://root:@localhost/legistifyphp';
 		$dbconnect = $this->load->database($dsn);
 		$all_data=array('current_user'=>"",'lawyer_schedule'=>array(),'appointment_request_list'=>array());

@@ -143,13 +143,6 @@ function updateSchedule(){
 		    	console.log("updating the schedule..........................");
 		    	console.log(user_data);
 		    	alert("Schedule successfully updated!!!");
-		  //   	current_user = user_data.current_user;
-				// if(current_user.lawyer == "0"){
-				// 	populate_site_user_page(user_data)
-				// }
-				// else{
-				// 	populate_lawyer_page(user_data)
-				// }
 		    	
 		    },
 		    error : function(a,b,c){
@@ -192,7 +185,6 @@ function requestAppointment(name){
 		        console.log("initialization failed !!!",a,b,c);
 		    }
 		});
-	// socket.emit('request_appointment',request_data);
 }
 function populate_site_user_page(user_data){
 
@@ -237,7 +229,6 @@ function populate_site_user_page(user_data){
 		        console.log("initialization failed !!!",a,b,c);
 		    }
 		});
-		    // socket.emit('lawyer_information',{'lawyer_uuid':selected_lawyer,'user_uuid':global_uuid});
 		});
 
 		$('#'+lawyer.uuid).hover(
@@ -301,14 +292,6 @@ function populate_lawyer_page(user_data){
 			var appointment_request = appointment_request_list[i];
 			if(appointment_request.status == "2"){
 				var date = appointment_request.date;
-				// var current_date = new Date();
-				// var nextDay = new Date();
-				// nextDay.setDate(current_date.getDate()+1);
-				// var date_params = nextDay.toString().split(" ");
-    //             var next_date_str = date_params[2]+"-"+date_params[1]+"-"+date_params[3];
-    //             if(date != next_date_str){
-    //             		continue;
-    //             }
 				var time_slot = appointment_request.time_slot;
 				console.log(date,time_slot)
 				$("#"+date+"_"+time_slot+"_2").prop("checked", true);
